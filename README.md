@@ -1,7 +1,7 @@
 Klaviyo PHP SDK + GET and PUT
 ============
 
-This is a fork of the official Klaviyo PHP API that also adds in GET and PUT functionality from robwittman/php-klaviyo. It requires Guzzle to be installed and loaded in your project (I didn't load it in the class directly because that's not what was done int he robwittman class).
+This is a fork of the official Klaviyo PHP API that also adds in GET and PUT functionality from robwittman/php-klaviyo. It requires Guzzle to be installed and loaded in your project (I didn't load it in the class directly because that's not what was done in the robwittman class).
 
 Library include a class for using the Klaviyo API from PHP.
 
