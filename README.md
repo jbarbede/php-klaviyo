@@ -132,7 +132,7 @@ $args = array(
     "measurement" => '["sum","ItemCount"]',
     "where"       => '[["ItemCount","=",5]]',
 //  "by"          => urlencode('Accepts Marketing'),
-    "count" => 100,
+    "count" => 100
 );
 $result = $klaviyo->get("metric/{{METRIC_ID}}/export", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -160,19 +160,19 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-   '$id'		      		=> 'dqQnNW',
-   '$email'			      => 'george.washington@example.com',
-   '$first_name'	   	=> 'George',
-   '$last_name'		   => 'Washington',
-   '$phone_number'   	=> '555-555-5555',
-   '$title'			      => 'Ex-president',
+   '$id'                => 'dqQnNW',
+   '$email'             => 'george.washington@example.com',
+   '$first_name'        => 'George',
+   '$last_name'         => 'Washington',
+   '$phone_number'      => '555-555-5555',
+   '$title'             => 'Ex-president',
    '$organization'      => 'U.S. Government',
-   '$city'			      => 'Mount Vernon',
-   '$region'		   	=> 'Virginia',
-   '$country'	   		=> 'US',
-   '$zip'	   			=> '22121',
-   '$image'			      => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
-   '$timezone'		      => 'US/Eastern',
+   '$city'              => 'Mount Vernon',
+   '$region'            => 'Virginia',
+   '$country'           => 'US',
+   '$zip'               => '22121',
+   '$image'             => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+   '$timezone'          => 'US/Eastern',
    'favorite_ice_cream' => 'vanilla'
 );
 $result = $klaviyo->put("person/{{PERSON_ID}}", $args);
@@ -640,14 +640,14 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-	"list_id"				=> "erRoOX",
-	"template_id"			=> "gtTqQZ",
-	"from_email"			=> "george.washington@example.com",
-	"from_name"				=> "George Washington",
-	"subject"				=> "Company Monthly Newsletter",
-	"name"					=> "Campaign Name",
-	"use_smart_sending"		=> true,
-	"add_google_analytics"	=> true
+    "list_id"              => "erRoOX",
+    "template_id"          => "gtTqQZ",
+    "from_email"           => "george.washington@example.com",
+    "from_name"            => "George Washington",
+    "subject"              => "Company Monthly Newsletter",
+    "name"                 => "Campaign Name",
+    "use_smart_sending"    => true,
+    "add_google_analytics" => true
 );
 $result = $klaviyo->post("campaigns", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -672,14 +672,14 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-	"list_id"				=> "erRoOX",
-	"template_id"			=> "gtTqQZ",
-	"from_email"			=> "george.washington@example.com",
-	"from_name"				=> "George Washington",
-	"subject"				=> "Company Monthly Newsletter",
-	"name"					=> "Campaign Name",
-	"use_smart_sending"		=> true,
-	"add_google_analytics"	=> true
+    "list_id"              => "erRoOX",
+    "template_id"          => "gtTqQZ",
+    "from_email"           => "george.washington@example.com",
+    "from_name"            => "George Washington",
+    "subject"              => "Company Monthly Newsletter",
+    "name"                 => "Campaign Name",
+    "use_smart_sending"    => true,
+    "add_google_analytics" => true
 );
 $result = $klaviyo->put("campaign/{{CAMPAIGN_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -843,10 +843,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-	 "from_email"  => "george.washington@example.com",
-	 "from_name"	=> "George Washington",
-	 "subject"		=> "Company Monthly Newsletter",
-    "context"     => '{ "name" : "George Washington", "notifcation_count" : 10 }'
+    "from_email" => "george.washington@example.com",
+    "from_name"  => "George Washington",
+    "subject"    => "Company Monthly Newsletter",
+    "context"    => '{ "name" : "George Washington", "notifcation_count" : 10 }'
 );
 $result = $klaviyo->post("email-template/{{TEMPLATE_ID}}/send", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -867,9 +867,9 @@ $customer_properties = array(
     '$email' => "thomas.jefferson@example.com"
 );
 $properties = array(
-    "PreviouslyVicePresident"	=> true,
-    "YearElected"				=> 1801,
-    "VicePresidents"			=> ["Aaron Burr", "George Clinton"]
+    "PreviouslyVicePresident" => true,
+    "YearElected"             => 1801,
+    "VicePresidents"          => ["Aaron Burr", "George Clinton"]
 );
 $time = 1537057291;
 $result = $klaviyo->tracker($event, $customer_properties, $properties, $time);
@@ -883,18 +883,18 @@ include "Klaviyo.php";
 $token = "ABC123";
 $klaviyo = new Klaviyo(null, $token);
 $args = array(
-	"event" => "Elected President",
-	"customer_properties" => array(
-		'$email' => "thomas.jefferson@example.com"
-	),
-	"properties" => array(
-		"PreviouslyVicePresident"	=> true,
-		"YearElected"		   		=> 1801,
-		"VicePresidents"		   	=> ["Aaron Burr", "George Clinton"],
-      '$event_id'                => 10001234,
-      '$value'                   => 11.25
-	),
-	"time" => 1537057291
+    "event" => "Elected President",
+    "customer_properties" => array(
+        '$email' => "thomas.jefferson@example.com"
+    ),
+    "properties" => array(
+        "PreviouslyVicePresident" => true,
+        "YearElected"             => 1801,
+        "VicePresidents"          => ["Aaron Burr", "George Clinton"],
+        '$event_id'               => 10001234,
+        '$value'                  => 11.25
+    ),
+    "time" => 1537057291
 );
 $result = $klaviyo->get("track", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -911,20 +911,20 @@ include "Klaviyo.php";
 $token = "ABC123";
 $klaviyo = new Klaviyo(null, $token);
 $properties = array(
-    '$id'			=> 'dqQnNW',
-    '$email'		=> 'george.washington@example.com',
-    '$first_name'	=> 'George',
-    '$last_name'	=> 'Washington',
-    '$phone_number'	=> '555-555-5555',
-    '$title'		=> 'Ex-president',
-    '$organization'	=> 'U.S. Government',
-    '$city'			=> 'Mount Vernon',
-    '$region'		=> 'Virginia',
-    '$country'		=> 'US',
-    '$zip'			=> '22121',
-    '$image'		=> 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
-    "Plan"			=> "Premium",
-    "SignUpDate"	=> "2016-05-01 10:10:00"
+    '$id'           => 'dqQnNW',
+    '$email'        => 'george.washington@example.com',
+    '$first_name'   => 'George',
+    '$last_name'    => 'Washington',
+    '$phone_number' => '555-555-5555',
+    '$title'        => 'Ex-president',
+    '$organization' => 'U.S. Government',
+    '$city'         => 'Mount Vernon',
+    '$region'       => 'Virginia',
+    '$country'      => 'US',
+    '$zip'          => '22121',
+    '$image'        => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+    "Plan"          => "Premium",
+    "SignUpDate"    => "2016-05-01 10:10:00"
 )
 $result = $klaviyo->identify($properties);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -937,20 +937,20 @@ include "Klaviyo.php";
 $token = "ABC123";
 $klaviyo = new Klaviyo(null, $token);
 $properties = array(
-    '$id'			=> 'dqQnNW',
-    '$email'		=> 'george.washington@example.com',
-    '$first_name'	=> 'George',
-    '$last_name'	=> 'Washington',
-    '$phone_number'	=> '555-555-5555',
-    '$title'		=> 'Ex-president',
-    '$organization'	=> 'U.S. Government',
-    '$city'			=> 'Mount Vernon',
-    '$region'		=> 'Virginia',
-    '$country'		=> 'US',
-    '$zip'			=> '22121',
-    '$image'		=> 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
-    "Plan"			=> "Premium",
-    "SignUpDate"	=> "2016-05-01 10:10:00"
+    '$id'           => 'dqQnNW',
+    '$email'        => 'george.washington@example.com',
+    '$first_name'   => 'George',
+    '$last_name'    => 'Washington',
+    '$phone_number' => '555-555-5555',
+    '$title'        => 'Ex-president',
+    '$organization' => 'U.S. Government',
+    '$city'         => 'Mount Vernon',
+    '$region'       => 'Virginia',
+    '$country'      => 'US',
+    '$zip'          => '22121',
+    '$image'        => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+    "Plan"          => "Premium",
+    "SignUpDate"    => "2016-05-01 10:10:00"
 )
 $result = $klaviyo->get("identify", $properties);
 echo "<pre>" . print_r($result, 1) . "</pre>";
