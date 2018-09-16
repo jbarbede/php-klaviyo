@@ -5,68 +5,130 @@ This is a fork of the [official Klaviyo PHP API](https://github.com/klaviyo/php-
 
 Table of Contents
 -------------
-1. [Metrics](#metrics)<a name="metrics-top"></a>
-    * [Listing metrics](#metrics-listing-metrics)<a name="metrics-listing-metrics-top"></a>
-    * [Listing the complete event timeline](#metrics-listing-the-complete-event-timeline)<a name="metrics-listing-the-complete-event-timeline-top"></a>
-    * [Listing the event timeline for a particular metric](#metrics-listing-the-event-timeline-for-a-particular-metric)<a name="metrics-listing-the-event-timeline-for-a-particular-metric-top"></a>
-    * [Exporting metric data](#metrics-exporting-metric-data)<a name="metrics-exporting-metric-data-top"></a>
-2. [Profiles](#profiles)<a name="profiles-top"></a>
-    * [Retrieving a Person's Attributes](#profiles-retrieving-a-persons-attributes)<a name="profiles-retrieving-a-persons-attributes-top"></a>
-    * [Adding or Updating a Person's Attributes](#profiles-adding-or-updating-a-persons-attributes)<a name="profiles-adding-or-updating-a-persons-attributes-top"></a>
-    * [Listing a person's complete event timeline](#profiles-listing-a-persons-complete-event-timeline)<a name="profiles-listing-a-persons-complete-event-timeline-top"></a>
-    * [Listing a person's event timeline for a particular metric](#profiles-listing-a-persons-event-timeline-for-a-particular-metric)<a name="profiles-listing-a-persons-event-timeline-for-a-particular-metric-top"></a>
-    * [Getting all people](#profiles-getting-all-people)<a name="profiles-getting-all-people-top"></a>
-3. [Lists](#lists)<a name="lists-top"></a>
-    * [Lists in Account](#lists-lists-in-account)<a name="lists-lists-in-account-top"></a>
-    * [Creating a List](#lists-creating-a-list)<a name="lists-creating-a-list-top"></a>
-    * [List Information](#lists-list-information)<a name="lists-list-information-top"></a>
-    * [Updating a List](#lists-updating-a-list)<a name="lists-updating-a-list-top"></a>
-    * [Deleting a List](#lists-deleting-a-list)<a name="lists-deleting-a-list-top"></a>
-    * [Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list)<a name="lists-checking-if-someone-is-in-a-list-top"></a>
-    * [Checking if Someone is in a Segment](#lists-checking-if-someone-is-in-a-segment)<a name="lists-checking-if-someone-is-in-a-segment-top"></a>
-    * [Adding Someone to a List](#lists-adding-someone-to-a-list)<a name="lists-adding-someone-to-a-list-top"></a>
-    * [Batch Adding People to a List](#lists-batch-adding-people-to-a-list)<a name="lists-batch-adding-people-to-a-list-top"></a>
-    * [Batch Removing People from a List](#lists-batch-removing-people-from-a-list)<a name="lists-batch-removing-people-from-a-list-top"></a>
-    * [Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list)<a name="lists-exclude-or-unsubscribe-someone-from-a-list-top"></a>
-    * [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list)<a name="lists-list-exclusions-or-unsubscribes-for-a-list-top"></a>
-    * [List Exclusions or Unsubscribes](#lists-list-exclusions-or-unsubscribes)<a name="lists-list-exclusions-or-unsubscribes-top"></a>
-    * [Exclude or Unsubscribe Someone from All Email](#lists-exclude-or-unsubscribe-someone-from-all-email)<a name="lists-exclude-or-unsubscribe-someone-from-all-email-top"></a>
-4. [Lists v2](#lists-v2)<a name="lists-v2-top"></a>
-    * [Create a List](#lists-v2-create-a-list)<a name="lists-v2-create-a-list-top"></a>
-    * [Get Lists](#lists-v2-get-lists)<a name="lists-v2-get-lists-top"></a>
-    * [Get List Details](#lists-v2-get-list-details)<a name="lists-v2-get-list-details-top"></a>
-    * [Update a List](#lists-v2-update-a-list)<a name="lists-v2-update-a-list-top"></a>
-    * [Delete a List](#lists-v2-delete-a-list)<a name="lists-v2-delete-a-list-top"></a>
-    * [Subscribe to List](#lists-v2-subscribe-to-list)<a name="lists-v2-subscribe-to-list-top"></a>
-    * [Check List Subscriptions](#lists-v2-check-list-subscriptions)<a name="lists-v2-check-list-subscriptions-top"></a>
-    * [Unsubscribe from List](#lists-v2-unsubscribe-from-list)<a name="lists-v2-unsubscribe-from-list-top"></a>
-    * [Add to List](#lists-v2-add-to-list)<a name="lists-v2-add-to-list-top"></a>
-    * [Check List Membership](#lists-v2-check-list-membership)<a name="lists-v2-check-list-membership-top"></a>
-    * [Remove from List](#lists-v2-remove-from-list)<a name="lists-v2-remove-from-list-top"></a>
-    * [Get All Exclusions on a List](#lists-v2-get-all-exclusions-on-a-list)<a name="lists-v2-get-all-exclusions-on-a-list-top"></a>
-    * [Get Group Member Emails](#lists-v2-get-group-member-emails)<a name="lists-v2-get-group-member-emails-top"></a>
-5. [Campaigns](#campaigns)<a name="campaigns-top"></a>
-    * [Campaigns in Account](#campaigns-campaigns-in-account)<a name="campaigns-campaigns-in-account-top"></a>
-    * [Creating a Campaign](#campaigns-creating-a-campaign)<a name="campaigns-creating-a-campaign-top"></a>
-    * [Campaign Information](#campaigns-campaign-information)<a name="campaigns-campaign-information-top"></a>
-    * [Updating a Campaign](#campaigns-updating-a-campaign)<a name="campaigns-updating-a-campaign-top"></a>
-    * [Send a Campaign Immediately](#campaigns-send-a-campaign-immediately)<a name="campaigns-send-a-campaign-immediately-top"></a>
-    * [Schedule a Campaign](#campaigns--schedule-a-campaign)<a name="campaigns--schedule-a-campaign-top"></a>
-    * [Cancel a Campaign](#campaigns-cancel-a-campaign)<a name="campaigns-cancel-a-campaign-top"></a>
-    * [Clone a Campaign](#campaigns-clone-a-campaign)<a name="campaigns-clone-a-campaign-top"></a>
-    * [Campaign Recipient Information](#campaigns-campaign-recipient-information)<a name="campaigns-campaign-recipient-information-top"></a>
-6. [Templates](#templates)<a name="templates-top"></a>
-    * [List all templates](#templates-list-all-templates)<a name="templates-list-all-templates-top"></a>
-    * [Creating a template](#templates-creating-a-template)<a name="templates-creating-a-template-top"></a>
-    * [Updating an email template](#templates-updating-an-email-template)<a name="templates-updating-an-email-template-top"></a>
-    * [Deleting template](#templates-deleting-template)<a name="templates-deleting-template-top"></a>
-    * [Clone template](#templates-clone-template)<a name="templates-clone-template-top"></a>
-    * [Render template](#templates-render-template)<a name="templates-render-template-top"></a>
-    * [Render template and send email](#templates-render-template-and-send-email)<a name="templates-render-template-and-send-email-top"></a>
-7. [Track](#track)<a name="track-top"></a>
-    * [Basic Event Call](#track-basic-event-call)<a name="track-basic-event-call-top"></a>
-8. [Identify](#identify)<a name="identify-top"></a>
-    * [Basic Identify Call](#identify-basic-identify-call)<a name="identify-basic-identify-call-top"></a>
+<a name="metrics-top"></a>
+1. [Metrics](#metrics)
+    <a name="metrics-listing-metrics-top"></a>
+    * [Listing metrics](#metrics-listing-metrics)
+    <a name="metrics-listing-the-complete-event-timeline-top"></a>
+    * [Listing the complete event timeline](#metrics-listing-the-complete-event-timeline)
+    <a name="metrics-listing-the-event-timeline-for-a-particular-metric-top"></a>
+    * [Listing the event timeline for a particular metric](#metrics-listing-the-event-timeline-for-a-particular-metric)
+    <a name="metrics-exporting-metric-data-top"></a>
+    * [Exporting metric data](#metrics-exporting-metric-data)
+<a name="profiles-top"></a>
+2. [Profiles](#profiles)
+    <a name="profiles-retrieving-a-persons-attributes-top"></a>
+    * [Retrieving a Person's Attributes](#profiles-retrieving-a-persons-attributes)
+    <a name="profiles-adding-or-updating-a-persons-attributes-top"></a>
+    * [Adding or Updating a Person's Attributes](#profiles-adding-or-updating-a-persons-attributes)
+    <a name="profiles-listing-a-persons-complete-event-timeline-top"></a>
+    * [Listing a person's complete event timeline](#profiles-listing-a-persons-complete-event-timeline)
+    <a name="profiles-listing-a-persons-event-timeline-for-a-particular-metric-top"></a>
+    * [Listing a person's event timeline for a particular metric](#profiles-listing-a-persons-event-timeline-for-a-particular-metric)
+    <a name="profiles-getting-all-people-top"></a>
+    * [Getting all people](#profiles-getting-all-people)
+<a name="lists-top"></a>
+3. [Lists](#lists)
+    <a name="lists-lists-in-account-top"></a>
+    * [Lists in Account](#lists-lists-in-account)
+    <a name="lists-creating-a-list-top"></a>
+    * [Creating a List](#lists-creating-a-list)
+    <a name="lists-list-information-top"></a>
+    * [List Information](#lists-list-information)
+    <a name="lists-updating-a-list-top"></a>
+    * [Updating a List](#lists-updating-a-list)
+    <a name="lists-deleting-a-list-top"></a>
+    * [Deleting a List](#lists-deleting-a-list)
+    <a name="lists-checking-if-someone-is-in-a-list-top"></a>
+    * [Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list)
+    <a name="lists-checking-if-someone-is-in-a-segment-top"></a>
+    * [Checking if Someone is in a Segment](#lists-checking-if-someone-is-in-a-segment)
+    <a name="lists-adding-someone-to-a-list-top"></a>
+    * [Adding Someone to a List](#lists-adding-someone-to-a-list)
+    <a name="lists-batch-adding-people-to-a-list-top"></a>
+    * [Batch Adding People to a List](#lists-batch-adding-people-to-a-list)
+    <a name="lists-batch-removing-people-from-a-list-top"></a>
+    * [Batch Removing People from a List](#lists-batch-removing-people-from-a-list)
+    <a name="lists-exclude-or-unsubscribe-someone-from-a-list-top"></a>
+    * [Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list)
+    <a name="lists-list-exclusions-or-unsubscribes-for-a-list-top"></a>
+    * [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list)
+    <a name="lists-list-exclusions-or-unsubscribes-top"></a>
+    * [List Exclusions or Unsubscribes](#lists-list-exclusions-or-unsubscribes)
+    <a name="lists-exclude-or-unsubscribe-someone-from-all-email-top"></a>
+    * [Exclude or Unsubscribe Someone from All Email](#lists-exclude-or-unsubscribe-someone-from-all-email)
+<a name="lists-v2-top"></a>
+4. [Lists v2](#lists-v2)
+    <a name="lists-v2-create-a-list-top"></a>
+    * [Create a List](#lists-v2-create-a-list)
+    <a name="lists-v2-get-lists-top"></a>
+    * [Get Lists](#lists-v2-get-lists)
+    <a name="lists-v2-get-list-details-top"></a>
+    * [Get List Details](#lists-v2-get-list-details)
+    <a name="lists-v2-update-a-list-top"></a>
+    * [Update a List](#lists-v2-update-a-list)
+    <a name="lists-v2-delete-a-list-top"></a>
+    * [Delete a List](#lists-v2-delete-a-list)
+    <a name="lists-v2-subscribe-to-list-top"></a>
+    * [Subscribe to List](#lists-v2-subscribe-to-list)
+    <a name="lists-v2-check-list-subscriptions-top"></a>
+    * [Check List Subscriptions](#lists-v2-check-list-subscriptions)
+    <a name="lists-v2-unsubscribe-from-list-top"></a>
+    * [Unsubscribe from List](#lists-v2-unsubscribe-from-list)
+    <a name="lists-v2-add-to-list-top"></a>
+    * [Add to List](#lists-v2-add-to-list)
+    <a name="lists-v2-check-list-membership-top"></a>
+    * [Check List Membership](#lists-v2-check-list-membership)
+    <a name="lists-v2-remove-from-list-top"></a>
+    * [Remove from List](#lists-v2-remove-from-list)
+    <a name="lists-v2-get-all-exclusions-on-a-list-top"></a>
+    * [Get All Exclusions on a List](#lists-v2-get-all-exclusions-on-a-list)
+    <a name="lists-v2-get-group-member-emails-top"></a>
+    * [Get Group Member Emails](#lists-v2-get-group-member-emails)
+<a name="campaigns-top"></a>
+5. [Campaigns](#campaigns)
+    <a name="campaigns-campaigns-in-account-top"></a>
+    * [Campaigns in Account](#campaigns-campaigns-in-account)
+    <a name="campaigns-creating-a-campaign-top"></a>
+    * [Creating a Campaign](#campaigns-creating-a-campaign)
+    <a name="campaigns-campaign-information-top"></a>
+    * [Campaign Information](#campaigns-campaign-information)
+    <a name="campaigns-updating-a-campaign-top"></a>
+    * [Updating a Campaign](#campaigns-updating-a-campaign)
+    <a name="campaigns-send-a-campaign-immediately-top"></a>
+    * [Send a Campaign Immediately](#campaigns-send-a-campaign-immediately)
+    <a name="campaigns--schedule-a-campaign-top"></a>
+    * [Schedule a Campaign](#campaigns--schedule-a-campaign)
+    <a name="campaigns-cancel-a-campaign-top"></a>
+    * [Cancel a Campaign](#campaigns-cancel-a-campaign)
+    <a name="campaigns-clone-a-campaign-top"></a>
+    * [Clone a Campaign](#campaigns-clone-a-campaign)
+    <a name="campaigns-campaign-recipient-information-top"></a>
+    * [Campaign Recipient Information](#campaigns-campaign-recipient-information)
+<a name="templates-top"></a>
+6. [Templates](#templates)
+    <a name="templates-list-all-templates-top"></a>
+    * [List all templates](#templates-list-all-templates)
+    <a name="templates-creating-a-template-top"></a>
+    * [Creating a template](#templates-creating-a-template)
+    <a name="templates-updating-an-email-template-top"></a>
+    * [Updating an email template](#templates-updating-an-email-template)
+    <a name="templates-deleting-template-top"></a>
+    * [Deleting template](#templates-deleting-template)
+    <a name="templates-clone-template-top"></a>
+    * [Clone template](#templates-clone-template)
+    <a name="templates-render-template-top"></a>
+    * [Render template](#templates-render-template)
+    <a name="templates-render-template-and-send-email-top"></a>
+    * [Render template and send email](#templates-render-template-and-send-email)
+<a name="track-top"></a>
+7. [Track](#track)
+    <a name="track-basic-event-call-top"></a>
+    * [Basic Event Call](#track-basic-event-call)
+<a name="identify-top"></a>
+8. [Identify](#identify)
+    <a name="identify-basic-identify-call-top"></a>
+    * [Basic Identify Call](#identify-basic-identify-call)
     
 <a name="metrics"></a>
 ## [Metrics](#metrics-top)
