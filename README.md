@@ -23,6 +23,14 @@ Table of Contents
     * [Updating a List](#lists-updating-a-list)
     * [Deleting a List](#lists-deleting-a-list)
     * [Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list)
+    * [Checking if Someone is in a Segment](#lists-Checking if Someone is in a Segment)
+    * [Adding Someone to a List](#lists-adding-someone-to-a-list)
+    * [Batch Adding People to a List](#lists-batch-adding-people-to-a-list)
+    * [Batch Removing People from a List](#lists-batch-removing-people-from-a-list)
+    * [Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list)
+    * [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list)
+    * [List Exclusions or Unsubscribes](#lists-list-exclusions-or-unsubscribes)
+    * [Exclude or Unsubscribe Someone from All Email](#lists-exclude-or-unsubscribe-someone-from-all-email)
 4. [Lists v2](#lists-v2)
     * [Create a List](#lists-v2-create-a-list)
     * [Get Lists](#lists-v2-get-lists)
@@ -57,10 +65,8 @@ Table of Contents
     * [Render template and send email](#templates-render-template-and-send-email)
 7. [Track](#track)
     * [Basic Event Call](#track-basic-event-call)
-    * [Special Event Properties](#track-special-event-properties)
 8. [Identify](#identify)
     * [Basic Identify Call](#identify-basic-identify-call)
-    * [Special Identify Properties](#identify-special-identify-properties)
     
 <a name="metrics"></a>
 ## Metrics
@@ -73,11 +79,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "page"  => 1,
+    "count" => 100
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("metrics", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -89,11 +94,11 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "since" => 1400656845,
+    "count" => 100,
+    "sort"  => "asc"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("metrics/timeline", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -105,11 +110,11 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "since" => 1400656845,
+    "count" => 100,
+    "sort"  => "asc"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("metric/{{METRIC_ID}}/timeline", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -121,11 +126,15 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "start_date"  => 2015-01-01,
+    "end_date"    => 2015-01-31,
+    "unit"        => "week",
+    "measurement" => '["sum","ItemCount"]',
+    "where"       => '[["ItemCount","=",5]]',
+//  "by"          => urlencode('Accepts Marketing'),
+    "count" => 100,
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("metric/{{METRIC_ID}}/export", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -139,12 +148,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("person/{{PERSON_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -156,11 +160,22 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+   '$id'		      		=> 'dqQnNW',
+   '$email'			      => 'george.washington@example.com',
+   '$first_name'	   	=> 'George',
+   '$last_name'		   => 'Washington',
+   '$phone_number'   	=> '555-555-5555',
+   '$title'			      => 'Ex-president',
+   '$organization'      => 'U.S. Government',
+   '$city'			      => 'Mount Vernon',
+   '$region'		   	=> 'Virginia',
+   '$country'	   		=> 'US',
+   '$zip'	   			=> '22121',
+   '$image'			      => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+   '$timezone'		      => 'US/Eastern',
+   'favorite_ice_cream' => 'vanilla'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->put("person/{{PERSON_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -172,11 +187,11 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "since" => 1400656845,
+    "count" => 100,
+    "sort"  => "asc"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("person/{{PERSON_ID}}/metrics/timeline", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -188,11 +203,11 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "since" => 1400656845,
+    "count" => 100,
+    "sort"  => "asc"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("person/{{PERSON_ID}}/metric/{{METRIC_ID}}/timeline", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -202,13 +217,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("people");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -217,103 +226,215 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 
 <a name="lists-lists-in-account"></a>
 ### Lists in Account
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "type"  => "segment",
+    "page"  => "1",
+    "count" => "100"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("lists", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
 <a name="lists-creating-a-list"></a>
 ### Creating a List
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name"        => "My New List",
+    "list_type"   => "standard"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("lists", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
 <a name="lists-list-information"></a>
 ### List Information
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
 <a name="lists-updating-a-list"></a>
 ### Updating a List
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name" => "My New List Name"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->put("list/{{LIST_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
 <a name="lists-deleting-a-list"></a>
 ### Deleting a List
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->delete("list/{{LIST_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
 <a name="lists-checking-if-someone-is-in-a-list"></a>
 ### Checking if Someone is in a List
-####DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "email" => '["george.washington@example.com","thomas.jefferson@example.com"]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID}}/members", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-Checking if Someone is in a Segment"></a>
+### Checking if Someone is in a Segment
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "email" => '["george.washington@example.com","thomas.jefferson@example.com"]'
+);
+$result = $klaviyo->get("segment/{{SEGMENT_ID}}/members", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-adding-someone-to-a-list"></a>
+### Adding Someone to a List
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "email"          => "george.washington@example.com",
+    "properties"     => '{ "$first_name" : "George", "Birthday" : "02/22/1732" }',
+    "confirm_optin"  => true
+);
+$result = $klaviyo->post("list/{{LIST_ID}}/members", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-batch-adding-people-to-a-list"></a>
+### Batch Adding People to a List
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "batch"          => '[ { "email" : "george.washington@example.com", "properties" : { "$first_name" : "George", "Birthday" : "02/22/1732" } }, { "email" : "thomas.jefferson@example.com" } ]',
+    "confirm_optin"  => true
+);
+$result = $klaviyo->post("list/{{LIST_ID}}/members/batch", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-batch-removing-people-from-a-list"></a>
+### Batch Removing People from a List
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "batch" => '[ { "email" : "george.washington@example.com" }, { "email" : "ben.franklin@example.com" } ]'
+);
+$result = $klaviyo->delete("list/{{LIST_ID}}/members/batch", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-exclude-or-unsubscribe-someone-from-a-list"></a>
+### Exclude or Unsubscribe Someone from a List
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "email"       => "george.washington@example.com",
+    "timestamp"   => 1400656845
+);
+$result = $klaviyo->post("list/{{LIST_ID}}/members/exclude", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-list-exclusions-or-unsubscribes-for-a-list"></a>
+### List Exclusions or Unsubscribes for a List
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "reason"   => "unsubscribe",
+    "sort"     => "desc"
+);
+$result = $klaviyo->get("list/{{LIST_ID}}/exclusions", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-list-exclusions-or-unsubscribes"></a>
+### List Exclusions or Unsubscribes
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "reason"   => "unsubscribe",
+    "sort"     => "desc"
+);
+$result = $klaviyo->get("people/exclusions", $args);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
+<a name="lists-exclude-or-unsubscribe-someone-from-all-email"></a>
+### Exclude or Unsubscribe Someone from All Email
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+```php
+<?php
+include "Klaviyo.php";
+$api_key = "pk_123456789abcdef123456789abcdef12";
+$klaviyo = new Klaviyo($api_key);
+$args = array(
+    "email"       => "george.washington@example.com",
+    "timestamp"   => 1400656845
+);
+$result = $klaviyo->post("people/exclusions", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -326,13 +447,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "list_name" => "my new list name",
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("lists", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -342,13 +461,8 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$klaviyo = new Klaviyo($api_key, null, 2);
+$result = $klaviyo->get("lists");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -358,13 +472,8 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$klaviyo = new Klaviyo($api_key, null, 2);
+$result = $klaviyo->get("list/{{LIST_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -374,13 +483,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "list_name" => "my new list name",
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->put("list/{{LIST_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -390,13 +497,8 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$klaviyo = new Klaviyo($api_key, null, 2);
+$result = $klaviyo->delete("list/{{LIST_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -406,13 +508,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -422,13 +522,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -438,13 +536,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->delete("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -454,13 +550,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -470,13 +564,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -486,13 +578,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->delete("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -502,13 +592,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "marker" => 123456,
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID}}/exclusions/all", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -518,13 +606,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$klaviyo = new Klaviyo($api_key, null, 2);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "marker" => 123456,
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("list/{{LIST_ID or SEGMENT_ID}}/members/all", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -539,11 +625,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "page"  => 1,
+    "count" => 100
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("campaigns", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -555,11 +640,16 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+	"list_id"				=> "erRoOX",
+	"template_id"			=> "gtTqQZ",
+	"from_email"			=> "george.washington@example.com",
+	"from_name"				=> "George Washington",
+	"subject"				=> "Company Monthly Newsletter",
+	"name"					=> "Campaign Name",
+	"use_smart_sending"		=> true,
+	"add_google_analytics"	=> true
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("campaigns", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -570,12 +660,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("campaign/{{CAMPAIGN_ID}}");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -587,11 +672,16 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+	"list_id"				=> "erRoOX",
+	"template_id"			=> "gtTqQZ",
+	"from_email"			=> "george.washington@example.com",
+	"from_name"				=> "George Washington",
+	"subject"				=> "Company Monthly Newsletter",
+	"name"					=> "Campaign Name",
+	"use_smart_sending"		=> true,
+	"add_google_analytics"	=> true
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->put("campaign/{{CAMPAIGN_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -602,12 +692,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("campaign/{{CAMPAIGN_ID}}/send");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -619,11 +704,9 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "send_time"   => "2013-06-14 00:00:00"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("campaign/{{CAMPAIGN_ID}}/schedule", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -634,12 +717,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("campaign/{{CAMPAIGN_ID}}/cancel", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -651,11 +729,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name"     => "Cloned Campaign",
+    "list_id"  => "erRoOX"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("campaign/{{CAMPAIGN_ID}}/clone", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -667,11 +744,11 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "count"    => 25000,
+    "sort"     => "desc",
+    "offset"   => "Z2VvcmdlLndhc2hpbmd0b25AZXhhbXBsZS5jb20=",
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("campaign/{{CAMPAIGN_ID}}/recipients", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -685,12 +762,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("email-templates", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -702,11 +774,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name" => "My New Template",
+    "html" => "<html><body><p>This is an email for {{ email }}.</p></body></html>"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("email-templates", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -718,11 +789,10 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name" => "My New Template",
+    "html" => "<html><body><p>This is an email for {{ email }}.</p></body></html>"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->put("email-template/{{TEMPLATE_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -733,12 +803,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->delete("email-template/{{TEMPLATE_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -750,11 +815,9 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "name" => "My Cloned Template"
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("email-template/{{TEMPLATE_ID}}/clone", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -766,11 +829,9 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+    "context" => '{ "name" : "George Washington", "notifcation_count" : 10 }',
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("email-template/{{TEMPLATE_ID}}/render", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -782,11 +843,12 @@ include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+	 "from_email"  => "george.washington@example.com",
+	 "from_name"	=> "George Washington",
+	 "subject"		=> "Company Monthly Newsletter",
+    "context"     => '{ "name" : "George Washington", "notifcation_count" : 10 }'
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->post("email-template/{{TEMPLATE_ID}}/send", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -798,30 +860,43 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```php
 <?php
 include "Klaviyo.php";
-$api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+$token = "ABC123";
+$klaviyo = new Klaviyo(null, $token);
+$event = "Elected President";
+$customer_properties = array(
+    '$email' => "thomas.jefferson@example.com"
 );
-$result = $klaviyo->get("", $args);
+$properties = array(
+    "PreviouslyVicePresident"	=> true,
+    "YearElected"				=> 1801,
+    "VicePresidents"			=> ["Aaron Burr", "George Clinton"]
+);
+$time = 1537057291;
+$result = $klaviyo->tracker($event, $customer_properties, $properties, $time);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
-<a name="track-special-event-properties"></a>
-### Special Event Properties
+However, since a GET request is being performed in the class, the following implementation is also supported:
 ```php
 <?php
 include "Klaviyo.php";
-$api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
+$token = "ABC123";
+$klaviyo = new Klaviyo(null, $token);
 $args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
+	"event" => "Elected President",
+	"customer_properties" => array(
+		'$email' => "thomas.jefferson@example.com"
+	),
+	"properties" => array(
+		"PreviouslyVicePresident"	=> true,
+		"YearElected"		   		=> 1801,
+		"VicePresidents"		   	=> ["Aaron Burr", "George Clinton"],
+      '$event_id'                => 10001234,
+      '$value'                   => 11.25
+	),
+	"time" => 1537057291
 );
-$result = $klaviyo->get("", $args);
+$result = $klaviyo->get("track", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -833,23 +908,51 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```php
 <?php
 include "Klaviyo.php";
-$api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key);
-$args = array(
-    "source_name" => "FoxyCart",
-    "search_start_date" => "2015-04-15 12:05:06",
-    "order_by" => "shipping_last_name",
-);
-$result = $klaviyo->get("", $args);
+$token = "ABC123";
+$klaviyo = new Klaviyo(null, $token);
+$properties = array(
+    '$id'			=> 'dqQnNW',
+    '$email'		=> 'george.washington@example.com',
+    '$first_name'	=> 'George',
+    '$last_name'	=> 'Washington',
+    '$phone_number'	=> '555-555-5555',
+    '$title'		=> 'Ex-president',
+    '$organization'	=> 'U.S. Government',
+    '$city'			=> 'Mount Vernon',
+    '$region'		=> 'Virginia',
+    '$country'		=> 'US',
+    '$zip'			=> '22121',
+    '$image'		=> 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+    "Plan"			=> "Premium",
+    "SignUpDate"	=> "2016-05-01 10:10:00"
+)
+$result = $klaviyo->identify($properties);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
-<a name="identify-special-identify-properties"></a>
-### Special Event Properties
-    $tracker = new Klaviyo("YOUR_TOKEN");
-    $tracker->track(
-        'Purchased item',
-        array('$email' => 'someone@example.com', '$first_name' => 'Bill', '$last_name' => 'Shakespeare'),
-        array('Item SKU' => 'ABC123', 'Payment Method' => 'Credit Card'),
-        1354913220
-    );
+However, since a GET request is being performed in the class, the following implementation is also supported:
+```php
+<?php
+include "Klaviyo.php";
+$token = "ABC123";
+$klaviyo = new Klaviyo(null, $token);
+$properties = array(
+    '$id'			=> 'dqQnNW',
+    '$email'		=> 'george.washington@example.com',
+    '$first_name'	=> 'George',
+    '$last_name'	=> 'Washington',
+    '$phone_number'	=> '555-555-5555',
+    '$title'		=> 'Ex-president',
+    '$organization'	=> 'U.S. Government',
+    '$city'			=> 'Mount Vernon',
+    '$region'		=> 'Virginia',
+    '$country'		=> 'US',
+    '$zip'			=> '22121',
+    '$image'		=> 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
+    "Plan"			=> "Premium",
+    "SignUpDate"	=> "2016-05-01 10:10:00"
+)
+$result = $klaviyo->get("identify", $properties);
+echo "<pre>" . print_r($result, 1) . "</pre>";
+?>
+```
