@@ -987,7 +987,7 @@ $properties = array(
     '$image'        => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
     "Plan"          => "Premium",
     "SignUpDate"    => "2016-05-01 10:10:00"
-)
+);
 $result = $klaviyo->identify($properties);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
@@ -1013,7 +1013,7 @@ $properties = array(
     '$image'        => 'http://media.clarkart.edu/Web_medium_images/1955.16.jpg',
     "Plan"          => "Premium",
     "SignUpDate"    => "2016-05-01 10:10:00"
-)
+);
 $result = $klaviyo->get("identify", $properties);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
