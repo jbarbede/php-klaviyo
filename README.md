@@ -30,29 +30,29 @@ Table of Contents
 <a name="lists-top"></a>
 3. [Lists](#lists)
     <a name="lists-lists-in-account-top"></a>
-    * [Lists in Account](#lists-lists-in-account)
+    * ~~[Lists in Account](#lists-lists-in-account)~~
     <a name="lists-creating-a-list-top"></a>
-    * [Creating a List](#lists-creating-a-list)
+    * ~~[Creating a List](#lists-creating-a-list)~~
     <a name="lists-list-information-top"></a>
-    * [List Information](#lists-list-information)
+    * ~~[List Information](#lists-list-information)~~
     <a name="lists-updating-a-list-top"></a>
-    * [Updating a List](#lists-updating-a-list)
+    * ~~[Updating a List](#lists-updating-a-list)~~
     <a name="lists-deleting-a-list-top"></a>
-    * [Deleting a List](#lists-deleting-a-list)
+    * ~~[Deleting a List](#lists-deleting-a-list)~~
     <a name="lists-checking-if-someone-is-in-a-list-top"></a>
-    * [Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list)
+    * ~~[Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list)~~
     <a name="lists-checking-if-someone-is-in-a-segment-top"></a>
     * [Checking if Someone is in a Segment](#lists-checking-if-someone-is-in-a-segment)
     <a name="lists-adding-someone-to-a-list-top"></a>
-    * [Adding Someone to a List](#lists-adding-someone-to-a-list)
+    * ~~[Adding Someone to a List](#lists-adding-someone-to-a-list)~~
     <a name="lists-batch-adding-people-to-a-list-top"></a>
-    * [Batch Adding People to a List](#lists-batch-adding-people-to-a-list)
+    * ~~[Batch Adding People to a List](#lists-batch-adding-people-to-a-list)~~
     <a name="lists-batch-removing-people-from-a-list-top"></a>
-    * [Batch Removing People from a List](#lists-batch-removing-people-from-a-list)
+    * ~~[Batch Removing People from a List](#lists-batch-removing-people-from-a-list)~~
     <a name="lists-exclude-or-unsubscribe-someone-from-a-list-top"></a>
-    * [Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list)
+    * ~~[Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list)~~
     <a name="lists-list-exclusions-or-unsubscribes-for-a-list-top"></a>
-    * [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list)
+    * ~~[List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list)~~
     <a name="lists-list-exclusions-or-unsubscribes-top"></a>
     * [List Exclusions or Unsubscribes](#lists-list-exclusions-or-unsubscribes)
     <a name="lists-exclude-or-unsubscribe-someone-from-all-email-top"></a>
@@ -288,7 +288,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 
 <a name="lists-lists-in-account"></a>
 ### [Lists in Account](#lists-lists-in-account-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -305,7 +305,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-creating-a-list"></a>
 ### [Creating a List](#lists-creating-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -321,7 +321,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-list-information"></a>
 ### [List Information](#lists-list-information-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -333,7 +333,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-updating-a-list"></a>
 ### [Updating a List](#lists-updating-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -348,7 +348,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-deleting-a-list"></a>
 ### [Deleting a List](#lists-deleting-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -360,7 +360,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-checking-if-someone-is-in-a-list"></a>
 ### [Checking if Someone is in a List](#lists-checking-if-someone-is-in-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -375,7 +375,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-checking-if-someone-is-in-a-segment"></a>
 ### [Checking if Someone is in a Segment](#lists-checking-if-someone-is-in-a-segment-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+<!--#### DEPRECATED: Please use the [Lists API V2](#lists-v2).-->
 ```php
 <?php
 include "Klaviyo.php";
@@ -390,7 +390,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-adding-someone-to-a-list"></a>
 ### [Adding Someone to a List](#lists-adding-someone-to-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -407,7 +407,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-batch-adding-people-to-a-list"></a>
 ### [Batch Adding People to a List](#lists-batch-adding-people-to-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -423,7 +423,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-batch-removing-people-from-a-list"></a>
 ### [Batch Removing People from a List](#lists-batch-removing-people-from-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -438,7 +438,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-exclude-or-unsubscribe-someone-from-a-list"></a>
 ### [Exclude or Unsubscribe Someone from a List](#lists-exclude-or-unsubscribe-someone-from-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -454,7 +454,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-list-exclusions-or-unsubscribes-for-a-list"></a>
 ### [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+<!--#### DEPRECATED: Please use the [Lists API V2](#lists-v2).-->
 ```php
 <?php
 include "Klaviyo.php";
@@ -470,7 +470,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-list-exclusions-or-unsubscribes"></a>
 ### [List Exclusions or Unsubscribes](#lists-list-exclusions-or-unsubscribes-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+<!--#### DEPRECATED: Please use the [Lists API V2](#lists-v2).-->
 ```php
 <?php
 include "Klaviyo.php";
@@ -486,7 +486,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-exclude-or-unsubscribe-someone-from-all-email"></a>
 ### [Exclude or Unsubscribe Someone from All Email](#lists-exclude-or-unsubscribe-someone-from-all-email-top)
-#### [DEPRECATED: Please use the [Lists API V2](#lists-v2).
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
