@@ -12,25 +12,9 @@ class Klaviyo
     public $last_status_code = "";
 
     public function __construct($api_key = null, $token = null, $version = 1) {
-        if ($api_key != null && strpos($api_key, "pk_") === 0 && strlen($api_key) == 37) {
-            $this->api_key = $api_key;
-        }
-        else if ($api_key != null) {
-            throw new KlaviyoException("Invalid API key. Key should begin with pk_ followed by a 34 character hexidecimal string. See https://help.klaviyo.com/hc/en-us/articles/115005062267-Manage-Your-Account-s-API-Keys for more details.");
-        }
-
-        if ($token != null && strlen($token) == 6) {
-            $this->token = $token;
-        }
-        else if ($token != null) {
-            throw new KlaviyoException("Invalid token. Token should be a six-character, capitalized, alphanumeric string. See https://help.klaviyo.com/hc/en-us/articles/115005062267-Manage-Your-Account-s-API-Keys for more details.");
-        }
-        if ($version !== null && is_numeric($version) && $version >= 1) {
-            $this->version = $version;
-        }
-        else if ($version !== null) {
-            throw new KlaviyoException("Invalid version number. Version must be an integer greater than zero.");
-        }
+        $this->api_key = $api_key;
+        $this->token = $token;
+        $this->version = $version;
     }
 
     public function get($url = "", $params = null) {
@@ -59,7 +43,7 @@ class Klaviyo
         if ($method == "GET" && strpos($url, "track") === 0) {
             if (!isset($params['properties'])) $params['properties'] = null;
             if (!isset($params['time'])) $params['time'] = null;
-            return $this->track_once($params['event'], $params['customer_properties'], $params['properties'], $params['time']);
+            return $this->track($params['event'], $params['customer_properties'], $params['properties'], $params['time']);
         }
         if ($method == "GET" && strpos($url, "identify") === 0) {
             return $this->identify($params);
@@ -149,10 +133,6 @@ class Klaviyo
         return $this->make_request('identify', $encoded_params);
     }
     protected function build_params($params) {
-        if ($this->token == null) {
-            throw new KlaviyoException("You must specify a token key for this request");
-        }
-
         $params['token'] = $this->token;
         return 'data=' . urlencode(base64_encode(json_encode($params)));
     }
