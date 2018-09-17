@@ -454,7 +454,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-list-exclusions-or-unsubscribes-for-a-list"></a>
 ### [List Exclusions or Unsubscribes for a List](#lists-list-exclusions-or-unsubscribes-for-a-list-top)
-<!--#### DEPRECATED: Please use the [Lists API V2](#lists-v2).-->
+#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
 ```php
 <?php
 include "Klaviyo.php";
@@ -486,7 +486,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 ```
 <a name="lists-exclude-or-unsubscribe-someone-from-all-email"></a>
 ### [Exclude or Unsubscribe Someone from All Email](#lists-exclude-or-unsubscribe-someone-from-all-email-top)
-#### DEPRECATED: Please use the [Lists API V2](#lists-v2).
+<!--#### DEPRECATED: Please use the [Lists API V2](#lists-v2).-->
 ```php
 <?php
 include "Klaviyo.php";
