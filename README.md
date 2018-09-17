@@ -509,9 +509,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
     "list_name" => "my new list name",
+    "version"   => 2
 );
 $result = $klaviyo->post("lists", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -523,8 +524,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
-$result = $klaviyo->get("lists");
+$klaviyo = new Klaviyo($api_key, null);
+$args = array(
+    "version"   => 2
+);
+$result = $klaviyo->get("lists", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -534,8 +538,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
-$result = $klaviyo->get("list/{{LIST_ID}}");
+$klaviyo = new Klaviyo($api_key, null);
+$args = array(
+    "version"   => 2
+);
+$result = $klaviyo->get("list/{{LIST_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -545,9 +552,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
     "list_name" => "my new list name",
+    "version"   => 2
 );
 $result = $klaviyo->put("list/{{LIST_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -559,8 +567,11 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
-$result = $klaviyo->delete("list/{{LIST_ID}}");
+$klaviyo = new Klaviyo($api_key, null);
+$args = array(
+    "version"   => 2
+);
+$result = $klaviyo->delete("list/{{LIST_ID}}", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 ?>
 ```
@@ -570,9 +581,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]'
+    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]',
+    "version"   => 2
 );
 $result = $klaviyo->post("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -584,9 +596,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]',
+    "version"   => 2
 );
 $result = $klaviyo->get("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -598,9 +611,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]',
+    "version"   => 2
 );
 $result = $klaviyo->delete("list/{{LIST_ID}}/subscribe", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -612,9 +626,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]'
+    "profiles" => '[ { "email": "george.washington@example.com", "example_property": "valueA" }, { "email": "thomas.jefferson@example.com", "example_property": "valueB" } ]',
+    "version"   => 2
 );
 $result = $klaviyo->post("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -626,9 +641,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]',
+    "version"   => 2
 );
 $result = $klaviyo->get("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -640,9 +656,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
-    "emails" => '["george.washington@example.com", "john.adams@example.com"]'
+    "emails" => '["george.washington@example.com", "john.adams@example.com"]',
+    "version"   => 2
 );
 $result = $klaviyo->delete("list/{{LIST_ID}}/members", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -654,9 +671,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
     "marker" => 123456,
+    "version"   => 2
 );
 $result = $klaviyo->get("list/{{LIST_ID}}/exclusions/all", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
@@ -668,9 +686,10 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 <?php
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
-$klaviyo = new Klaviyo($api_key, null, 2);
+$klaviyo = new Klaviyo($api_key, null);
 $args = array(
     "marker" => 123456,
+    "version"   => 2
 );
 $result = $klaviyo->get("list/{{LIST_ID or SEGMENT_ID}}/members/all", $args);
 echo "<pre>" . print_r($result, 1) . "</pre>";
