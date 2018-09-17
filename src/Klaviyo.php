@@ -34,6 +34,14 @@ class Klaviyo
     }
 
     public function go($method, $url, $params) {
+        //Version Override for Lists API
+        if (isset($params['version'])) {
+            $this->version = $params['version'];
+            unset($params['version']);
+        }
+        else {
+            $this->version = 1;
+        }
         //The track and identify calls are TECHNICALLY GET requests. This allows them to be called in that manner.
         if ($method == "GET" && strpos($url, "track_once") === 0) {
             if (!isset($params['properties'])) $params['properties'] = null;
@@ -59,14 +67,8 @@ class Klaviyo
             throw new KlaviyoException("You must specify an API key for this request");
         }
 
-        //Version Override for Lists API
-        if (strpos($url, "list") === 0) {
-            $url =  $this->base_url . "v" . $this->version . "/" . $url;
-        }
-        else {
-            $url =  $this->base_url . "v1/" . $url;
-        }
-
+        $url =  $this->base_url . "v" . $this->version . "/" . $url;
+        $headers = $this->getHeaders();
         $params['api_key'] = $this->api_key;
 
         //GET and PUT Override
@@ -75,17 +77,25 @@ class Klaviyo
             $params = "";
         }
 
+        if ($this->version !== 2) {
+            $params = http_build_query($params);
+        }
+        else {
+            $params = json_encode($params);
+            $headers = array("api-key: {$this->api_key}", "Content-Type: application/json");
+        }
+
         //Setup cURL
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         if ($params) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, urlencode(base64_encode(json_encode($params))));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
 
         //Send To Klaviyo and Parse Response
         $response = trim(curl_exec($ch));
@@ -98,6 +108,20 @@ class Klaviyo
 
         $this->last_status_code = $info['http_code'];
         return $json;
+    }
+
+    private function getHeaders() {
+        if ($this->version !== 2) {
+            return array(
+                "api-key: {$this->api_key}",
+            );
+        }
+        else {
+            return array(
+                "api-key: {$this->api_key}",
+                "Content-Type: application/json",
+            );
+        }
     }
     public function track($event, $customer_properties=array(), $properties=array(), $timestamp=NULL) {
         if ((!array_key_exists('$email', $customer_properties) || empty($customer_properties['$email']))
