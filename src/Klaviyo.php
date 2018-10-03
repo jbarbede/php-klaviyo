@@ -72,12 +72,12 @@ class Klaviyo
         $params['api_key'] = $this->api_key;
 
         //GET and PUT Override
-        if (($method == "GET" || $method == "PUT") && $params !== null) {
+        if (($method == "GET" || $method == "PUT") && $this->version !== 2 && $params !== null) {
             $url .= (strpos($url, "?") === false ? "?" : "") . http_build_query($params);
             $params = "";
         }
 
-        if ($this->version !== 2) {
+        if ($this->version !== 2 && $params) {
             $params = http_build_query($params);
         }
         else {
