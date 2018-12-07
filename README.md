@@ -687,12 +687,18 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 include "Klaviyo.php";
 $api_key = "pk_123456789abcdef123456789abcdef12";
 $klaviyo = new Klaviyo($api_key, null);
-$args = array(
-    "marker" => 123456,
-    "version"   => 2
+$result = array(
+    "marker" => 1
 );
-$result = $klaviyo->get("list/{{LIST_ID or SEGMENT_ID}}/members/all", $args);
-echo "<pre>" . print_r($result, 1) . "</pre>";
+
+while (array_key_exists("marker", $result)) {
+    $args = array(
+        "marker" => $result["marker"],
+        "version"   => 2
+    );
+    $result = $klaviyo->get("list/{{LIST_ID or SEGMENT_ID}}/members/all", $args);
+    echo "<pre>" . print_r($result, 1) . "</pre>";
+}
 ?>
 ```
 <a name="campaigns"></a>
