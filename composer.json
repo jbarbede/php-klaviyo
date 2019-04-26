@@ -1,14 +1,14 @@
 {
-    "name": "klaviyo/php-sdk",
+    "name": "tobyberesford/php-klaviyo",
     "description": "Klaviyo PHP SDK",
     "keywords": ["klaviyo", "sdk"],
     "type": "library",
-    "homepage": "http://github.com/klaviyo",
+    "homepage": "https://github.com/tobyberesford/php-klaviyo",
     "license": "Apache2",
     "authors": [
         {
             "name": "Klaviyo",
-            "homepage": "https://github.com/klaviyo"
+            "homepage": "https://github.com/tobyberesford/php-klaviyo"
         }
     ],
     "require": {
