@@ -4,7 +4,7 @@
     "keywords": ["klaviyo", "sdk"],
     "type": "library",
     "homepage": "https://github.com/tobyberesford/php-klaviyo",
-    "license": "Apache2",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Klaviyo",
