@@ -1,6 +1,12 @@
 <?php
 
-class KlaviyoException extends Exception { }
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
+
+class KlaviyoException extends Exception
+{
+}
 
 class Klaviyo
 {
@@ -9,37 +15,84 @@ class Klaviyo
     protected $version;
     protected $base_url = "https://a.klaviyo.com/api/";
     protected $TRACK_ONCE_KEY = '__track_once__';
-    public $last_status_code = "";
+    protected $client;
 
-    public function __construct($api_key = null, $token = null, $version = 1) {
+    public function __construct($api_key = null, $token = null, $version = 1)
+    {
         $this->api_key = $api_key;
         $this->token = $token;
         $this->version = $version;
+        $this->client = new Client([
+            'base_uri' => $this->base_url,
+            'connect_timeout' => 10,
+            'read_timeout' => 10,
+            'timeout' => 10
+        ]);
     }
 
-    public function get($url = "", $params = null) {
+    /**
+     * @param string $url
+     * @param array $params
+     * @return bool|mixed|ResponseInterface
+     * @throws KlaviyoException
+     * @throws GuzzleException
+     */
+    public function get($url = "", $params = [])
+    {
         return $this->go("GET", $url, $params);
     }
 
-    public function post($url, $params = null) {
+    /**
+     * @param $url
+     * @param array $params
+     * @return bool|mixed|ResponseInterface
+     * @throws KlaviyoException
+     * @throws GuzzleException
+     */
+    public function post($url, $params = [])
+    {
         return $this->go("POST", $url, $params);
     }
 
-    public function put($url, $params = null) {
+    /**
+     * @param $url
+     * @param array $params
+     * @return bool|mixed|ResponseInterface
+     * @throws KlaviyoException
+     * @throws GuzzleException
+     */
+    public function put($url, $params = [])
+    {
         return $this->go("PUT", $url, $params);
     }
 
-    public function delete($url, $params = null) {
+    /**
+     * @param $url
+     * @param array $params
+     * @return bool|mixed|ResponseInterface
+     * @throws KlaviyoException
+     * @throws GuzzleException
+     */
+    public function delete($url, $params = [])
+    {
         return $this->go("DELETE", $url, $params);
     }
 
-    public function go($method, $url, $params) {
+    /**
+     * @param $method
+     * @param $url
+     * @param $params
+     * @return bool|mixed|ResponseInterface
+     * @throws KlaviyoException
+     * @throws GuzzleException
+     */
+    public function go($method, $url, $params = [])
+    {
         //Version Override for Lists API
         if (isset($params['version'])) {
             $this->version = $params['version'];
             unset($params['version']);
-        }
-        else {
+        } else {
             $this->version = 1;
         }
         //The track and identify calls are TECHNICALLY GET requests. This allows them to be called in that manner.
@@ -58,72 +111,78 @@ class Klaviyo
         }
 
         if (!is_array($params)) {
-            $params = null;
+            $params = [];
         }
-        if (!$url) {
+        if (empty($url)) {
             throw new KlaviyoException("Please enter a destination url");
         }
-        if ($this->api_key == null) {
+        if (empty($this->api_key)) {
             throw new KlaviyoException("You must specify an API key for this request");
         }
 
-        $url =  $this->base_url . "v" . $this->version . "/" . $url;
+        $url = "v" . $this->version . "/" . $url;
         $headers = $this->getHeaders();
         $params['api_key'] = $this->api_key;
 
         //GET and PUT Override
         if (($method == "GET" || $method == "PUT") && $this->version !== 2 && $params !== null) {
             $url .= (strpos($url, "?") === false ? "?" : "") . http_build_query($params);
-            $params = "";
+            $params = [];
         }
 
         if ($this->version !== 2 && $params) {
             $params = http_build_query($params);
-        }
-        else {
+        } else {
             $params = json_encode($params);
-            $headers = array("api-key: {$this->api_key}", "Content-Type: application/json");
+            $headers = [
+                "api-key" => $this->api_key,
+                "Content-Type" => "application/json"
+            ];
         }
 
-        //Setup cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        if ($params) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $options = ['headers' => $headers];
+        if (is_array($params)) {
+            $options['form_params'] = $params;
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $response = $this->client->request($method, $url, $options);
 
         //Send To Klaviyo and Parse Response
-        $response = trim(curl_exec($ch));
-        $info = curl_getinfo($ch);
-        $json = json_decode($response, 1);
+        $json = json_decode($response->getBody()->getContents(), true);
 
         if (!is_array($json)) {
             return $response;
         }
 
-        $this->last_status_code = $info['http_code'];
         return $json;
     }
 
-    private function getHeaders() {
+    /**
+     * @return array
+     */
+    private function getHeaders()
+    {
         if ($this->version !== 2) {
-            return array(
-                "api-key: {$this->api_key}",
-            );
-        }
-        else {
-            return array(
-                "api-key: {$this->api_key}",
-                "Content-Type: application/json",
-            );
+            return [
+                "api-key" => $this->api_key,
+            ];
+        } else {
+            return [
+                "api-key" => $this->api_key,
+                "Content-Type" => 'application/json',
+            ];
         }
     }
-    public function track($event, $customer_properties=array(), $properties=array(), $timestamp=NULL) {
+
+    /**
+     * @param $event
+     * @param array $customer_properties
+     * @param array $properties
+     * @param null $timestamp
+     * @return bool
+     * @throws KlaviyoException
+     */
+    public function track($event, $customer_properties = [], $properties = [], $timestamp = NULL)
+    {
         if ((!array_key_exists('$email', $customer_properties) || empty($customer_properties['$email']))
             && (!array_key_exists('$id', $customer_properties) || empty($customer_properties['$id']))) {
 
@@ -140,11 +199,28 @@ class Klaviyo
         $encoded_params = $this->build_params($params);
         return $this->make_request('track', $encoded_params);
     }
-    public function track_once($event, $customer_properties=array(), $properties=array(), $timestamp=NULL) {
+
+    /**
+     * @param $event
+     * @param array $customer_properties
+     * @param array $properties
+     * @param null $timestamp
+     * @return bool
+     * @throws KlaviyoException
+     */
+    public function track_once($event, $customer_properties = [], $properties = [], $timestamp = NULL)
+    {
         $properties[$this->TRACK_ONCE_KEY] = true;
         return $this->track($event, $customer_properties, $properties, $timestamp);
     }
-    public function identify($properties) {
+
+    /**
+     * @param $properties
+     * @return bool
+     * @throws KlaviyoException
+     */
+    public function identify($properties)
+    {
         if ((!array_key_exists('$email', $properties) || empty($properties['$email']))
             && (!array_key_exists('$id', $properties) || empty($properties['$id']))) {
 
@@ -156,13 +232,26 @@ class Klaviyo
         $encoded_params = $this->build_params($params);
         return $this->make_request('identify', $encoded_params);
     }
-    protected function build_params($params) {
+
+    /**
+     * @param $params
+     * @return string
+     */
+    protected function build_params($params)
+    {
         $params['token'] = $this->token;
         return 'data=' . urlencode(base64_encode(json_encode($params)));
     }
-    protected function make_request($path, $params) {
-        $url = $this->base_url . $path . '?' . $params;
-        $response = file_get_contents($url);
-        return $response == '1';
+
+    /**
+     * @param $path
+     * @param $params
+     * @return bool
+     */
+    protected function make_request($path, $params)
+    {
+        $url = $path . '?' . $params;
+        $response = $this->client->get($url);
+        return (int)$response == 1;
     }
 }
