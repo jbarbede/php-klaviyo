@@ -252,6 +252,6 @@ class Klaviyo
     {
         $url = $path . '?' . $params;
         $response = $this->client->get($url);
-        return (int)$response == 1;
+        return (int)$response->getBody()->getContents() == 1;
     }
 }
