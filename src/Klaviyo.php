@@ -133,7 +133,6 @@ class Klaviyo
         if ($this->version !== 2 && $params) {
             $params = http_build_query($params);
         } else {
-            $params = json_encode($params);
             $headers = [
                 "api-key" => $this->api_key,
                 "Content-Type" => "application/json"
@@ -141,8 +140,8 @@ class Klaviyo
         }
 
         $options = ['headers' => $headers];
-        if (is_array($params)) {
-            $options['form_params'] = $params;
+        if (!empty($params)) {
+            $options['json'] = $params;
         }
         $response = $this->client->request($method, $url, $options);
 
